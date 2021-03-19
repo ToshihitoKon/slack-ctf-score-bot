@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  app:
+    image: golang:1.14
+    environment:
+      SCSB_DB_USER: ore
+      SCSB_DB_HOST: db
+      SCSB_DB_PORT: 3306
+      SCSB_DB_PASS: flag_th1s_1s_inv4l1d_fl4g
+      SCSB_DB_NAME: slack_ctf_score_bot
+    env_file:
+      - ./.env
+    working_dir: /go/src/github.com/ToshihitoKon/slack-ctf-score-bot
+    volumes:
+      - ".:/go/src/github.com/ToshihitoKon/slack-ctf-score-bot"
+    entrypoint: ["go", "run", "src/main.go"]
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: flag_th1s_1s_inv4l1d_fl4g
+    links:
+      - phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_ROOT_PASSWORD: flag_th1s_1s_inv4l1d_fl4g
